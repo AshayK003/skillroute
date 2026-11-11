@@ -66,23 +66,43 @@ def render_tracker_tab():
         with st.form("add_app_form"):
             col1, col2 = st.columns(2)
             with col1:
-                company = st.text_input("Company *", placeholder="Acme Corp")
-                role = st.text_input("Role *", placeholder="Senior Data Engineer")
+                company = st.text_input(
+                    "Company *", placeholder="Acme Corp", key="_tracker_company"
+                )
+                role = st.text_input(
+                    "Role *", placeholder="Senior Data Engineer", key="_tracker_role"
+                )
             with col2:
-                status = st.selectbox("Status", [s.value for s in ApplicationStatus], index=0)
-                applied_date = st.date_input("Applied Date", datetime.now())
+                status = st.selectbox(
+                    "Status",
+                    [s.value for s in ApplicationStatus],
+                    index=0,
+                    key="_tracker_status",
+                )
+                applied_date = st.date_input(
+                    "Applied Date", datetime.now(), key="_tracker_applied_date"
+                )
 
             jd_text = st.text_area(
                 "Job Description (optional)",
                 height=100,
                 max_chars=10_000,
                 placeholder="Paste JD here for future reference...",
+                key="_tracker_jd",
             )
             notes = st.text_area(
-                "Notes", height=80, placeholder="Referral? Recruiter contact? Salary range?"
+                "Notes",
+                height=80,
+                placeholder="Referral? Recruiter contact? Salary range?",
+                key="_tracker_notes",
             )
 
-            if st.form_submit_button("Add Application", type="primary", width="stretch"):
+            if st.form_submit_button(
+                "Add Application",
+                type="primary",
+                width="stretch",
+                key="_tracker_add",
+            ):
                 if company and role:
                     try:
                         tracker.create(
