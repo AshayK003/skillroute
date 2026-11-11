@@ -95,45 +95,6 @@ class SkillExtractor:
 
         return result
 
-    def extract_from_jd(self, jd_text: str, is_required: bool = True) -> list[SkillMatch]:
-        """Extract skills from JD text."""
-        if not jd_text or not jd_text.strip():
-            return []
-
-        text_lower = jd_text.lower()
-        matches = []
-
-        for alias, canonical in self._alias_map:
-            if self._skill_in_text(alias, text_lower):
-                evidence_phrase = self._find_evidence_phrase(alias, jd_text)
-                # JD skills don't have user evidence levels, default to mentioned
-                evidence_level = "mentioned"
-                confidence = self._calculate_confidence(
-                    alias, text_lower, evidence_phrase, evidence_level
-                )
-
-                match = SkillMatch(
-                    canonical_skill=canonical,
-                    evidence_level=evidence_level,
-                    source="jd",
-                    supporting_evidence=evidence_phrase,
-                    extraction_confidence=confidence,
-                )
-                matches.append(match)
-
-        # Deduplicate
-        seen: dict[str, SkillMatch] = {}
-        for match in matches:
-            if (
-                match.canonical_skill not in seen
-                or match.extraction_confidence > seen[match.canonical_skill].extraction_confidence
-            ):
-                seen[match.canonical_skill] = match
-
-        result = list(seen.values())
-        result.sort(key=lambda m: m.extraction_confidence, reverse=True)
-        return result
-
     def _skill_in_text(self, skill: str, text_lower: str) -> bool:
         """Check if skill appears in text with word boundaries."""
         skill_lower = skill.lower()
@@ -213,22 +174,3 @@ class SkillExtractor:
             base -= 0.1
 
         return max(0.1, min(1.0, base))
-
-    def get_canonical_skill(self, term: str) -> str | None:
-        """Map a term to its canonical skill name."""
-        return self.taxonomy.get_canonical(term)
-
-    def get_all_canonical_skills(self) -> list[str]:
-        """Get all canonical skill names."""
-        return self.taxonomy.all_canonical()
-
-    def add_user_confirmation(
-        self, matches: list[SkillMatch], canonical_skill: str, confirmed: bool
-    ) -> list[SkillMatch]:
-        """Update user confirmation status for a skill."""
-        for match in matches:
-            if match.canonical_skill == canonical_skill:
-                match.user_confirmed = confirmed
-                if confirmed and match.evidence_level in ("none", "mentioned"):
-                    match.evidence_level = "self_reported"
-        return matches

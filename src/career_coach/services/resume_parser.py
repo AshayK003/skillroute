@@ -1,7 +1,6 @@
 """Resume parser with PDF/DOCX/TXT support."""
 
 import logging
-from functools import lru_cache
 from pathlib import Path
 
 import pdfplumber
@@ -159,15 +158,3 @@ class ResumeParser:
         except Exception as exc:
             logger.error("TXT extraction failed (%s)", type(exc).__name__)
             raise
-
-    def clear_cache(self) -> None:
-        """Clear the extraction cache."""
-        self._cache.clear()
-
-
-# Convenience function for simple usage
-@lru_cache(maxsize=32)
-def extract_resume_text_cached(file_path: str) -> str:
-    """Cached wrapper for simple extraction."""
-    parser = ResumeParser()
-    return parser.extract_text(file_path)

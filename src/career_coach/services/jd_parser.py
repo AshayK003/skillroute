@@ -379,9 +379,3 @@ class JDParser:
             return max(years_found)
 
         return 0
-
-
-def parse_jd(jd_text: str, taxonomy: SkillTaxonomy | None = None) -> dict:
-    """Convenience function for JD parsing."""
-    parser = JDParser(taxonomy)
-    return parser.parse(jd_text)

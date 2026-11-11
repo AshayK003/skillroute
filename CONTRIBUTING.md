@@ -66,7 +66,7 @@ refactor: extract skill matching to separate function
    - Ensure all existing tests pass
    - Run the Ruff check and format check, `mypy src/`, and `pip-audit` before pushing
 
-3. **Push and open PR** against `AshayK003/skillroute:main`:
+3. **Push and open PR** against `Tams2411/skillroute:main`:
    - Fill the PR template
    - Link related issues
    - Screenshots for UI changes

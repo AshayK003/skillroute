@@ -70,4 +70,4 @@ A further pass against the running application, exercising the tracker form and 
 | P2 | Dashboard "Partial Matches" overlapped "Matched Skills". | Double-counted metrics. |
 | P2 | Evidence excerpts could begin mid-word. | Unreadable evidence text. |
 
-Re-verification: 124 tests passing at 80% statement coverage; Ruff, format check, and mypy clean.
+Re-verification: 122 tests passing at 82% statement coverage; Ruff, format check, and mypy clean.

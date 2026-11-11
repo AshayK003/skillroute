@@ -69,6 +69,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Domain enums derive from `StrEnum` so UI rendering shows the value rather than the enum path
 - Dashboard "Partial Matches" is derived from weak-evidence matches and no longer overlaps "Matched Skills"
 - CI runs the full Ruff rule set declared in `pyproject.toml`, a format check, mypy, and a 75% coverage floor; fail-fast is disabled so every job reports
+- README CI badge, clone URL, and the contributor PR target now reference the upstream repository instead of a personal fork
+
+### Removed
+- Removed unreachable code with no callers in the application: `SkillExtractor.extract_from_jd`, `get_canonical_skill`, `get_all_canonical_skills`, and `add_user_confirmation`; `ResumeParser.clear_cache` and the `extract_resume_text_cached` wrapper; `SkillGapService.get_gap_details` and its private helpers; `get_questions_for_skill`; `ApplicationTracker.list_by_status`; the `parse_jd` convenience wrapper; and `save_taxonomy`
+- Removed the unreferenced `.dependencygraph/` editor configuration
 
 ### Fixed
 - Prevented manually entered skills from being treated as verified evidence; normalize supported aliases and report unrecognized entries

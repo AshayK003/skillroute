@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
-[![CI](https://github.com/AshayK003/skillroute/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/AshayK003/skillroute/actions/workflows/ci.yml)
+[![CI](https://github.com/Tams2411/skillroute/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Tams2411/skillroute/actions/workflows/ci.yml)
 
 **A local-first career-pivot coach that compares resume evidence with a job description, prioritizes skill gaps, and supports learning plans, interview practice, and application tracking. Core analysis is deterministic; optional Gemini feedback can help users review mock-interview answers.**
 
@@ -12,7 +12,7 @@
 
 ```bash
 # 1. Clone and enter
-git clone https://github.com/AshayK003/skillroute.git
+git clone https://github.com/Tams2411/skillroute.git
 cd skillroute
 
 # 2. Install the locked runtime and development dependencies

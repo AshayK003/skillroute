@@ -122,17 +122,6 @@ def _get_typed_questions_for_skill(
     return selected[:count]
 
 
-def get_questions_for_skill(
-    skill: str,
-    count: int = 3,
-    include_behavioral: bool = True,
-) -> list[str]:
-    """Get interview question text for a specific skill."""
-    return [
-        question for question, _ in _get_typed_questions_for_skill(skill, count, include_behavioral)
-    ]
-
-
 def generate_interview_session(
     gaps: list[SkillGap],
     target_role: str = "Target Role",

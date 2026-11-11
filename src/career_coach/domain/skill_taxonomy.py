@@ -269,10 +269,3 @@ def load_taxonomy(path: Path | None = None) -> SkillTaxonomy:
         skills = {k: SkillEntry(**v) for k, v in data.get("skills", {}).items()}
         return SkillTaxonomy(skills=skills)
     return DEFAULT_TAXONOMY
-
-
-def save_taxonomy(taxonomy: SkillTaxonomy, path: Path) -> None:
-    """Save taxonomy to JSON file."""
-    data = {"skills": {k: v.model_dump() for k, v in taxonomy.skills.items()}}
-    with open(path, "w") as f:
-        json.dump(data, f, indent=2)

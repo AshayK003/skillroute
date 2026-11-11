@@ -104,10 +104,6 @@ class ApplicationTracker:
         """List all applications, most recent first."""
         return sorted(self._applications, key=lambda a: a.applied_at, reverse=True)
 
-    def list_by_status(self, status: ApplicationStatus) -> list[Application]:
-        """List applications by status."""
-        return [a for a in self._applications if a.status == status]
-
     def update_status(self, app_id: UUID, status: ApplicationStatus) -> Application | None:
         """Update application status."""
         app = self.get(app_id)

@@ -5,7 +5,6 @@ from career_coach.domain.schemas import (
     EvidenceLevel,
     JobSkillRequirement,
     SkillEvidence,
-    SkillGap,
     SkillRequirementType,
 )
 from career_coach.domain.scoring import (
@@ -218,43 +217,3 @@ class SkillGapService:
                 },
             },
         }
-
-    def get_gap_details(self, gap: SkillGap) -> dict:
-        """Get detailed explanation for a specific gap."""
-        return {
-            "skill": gap.canonical_skill,
-            "priority": gap.priority,
-            "priority_label": self._priority_label(gap.priority),
-            "role_relevance": gap.role_relevance,
-            "evidence_strength": gap.evidence_strength,
-            "reason": gap.reason,
-            "uncertainty": gap.uncertainty,
-            "jd_evidence": gap.jd_evidence,
-            "resume_evidence": gap.resume_evidence,
-            "suggested_action": self._suggest_action(gap),
-        }
-
-    def _priority_label(self, priority: float) -> str:
-        """Convert priority score to label."""
-        if priority >= 0.6:
-            return "Critical"
-        elif priority >= 0.4:
-            return "High"
-        elif priority >= 0.25:
-            return "Medium"
-        elif priority >= 0.1:
-            return "Low"
-        return "Minimal"
-
-    def _suggest_action(self, gap: SkillGap) -> str:
-        """Suggest learning action based on gap characteristics."""
-        if gap.evidence_strength == 0:
-            return f"Learn {gap.canonical_skill} from fundamentals; build a portfolio project demonstrating it"
-        elif gap.evidence_strength <= 0.2:
-            return f"Deepen {gap.canonical_skill} knowledge; convert mentions to demonstrated evidence via project"
-        elif gap.evidence_strength <= 0.4:
-            return f"Strengthen {gap.canonical_skill} portfolio evidence; document specific achievements"
-        else:
-            return (
-                f"Verify {gap.canonical_skill} proficiency with certification or advanced project"
-            )
