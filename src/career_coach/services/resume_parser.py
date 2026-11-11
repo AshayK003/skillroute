@@ -3,7 +3,6 @@
 import logging
 from functools import lru_cache
 from pathlib import Path
-from typing import Union
 
 import pdfplumber
 import pypdf
@@ -28,7 +27,7 @@ class ResumeParser:
     def __init__(self):
         self._cache: dict[str, str] = {}
 
-    def extract_text(self, file_path: Union[str, Path]) -> str:
+    def extract_text(self, file_path: str | Path) -> str:
         """
         Extract text from a resume file with in-memory caching.
 
@@ -57,7 +56,7 @@ class ResumeParser:
         file_size = path.stat().st_size
         if file_size > self.MAX_SIZE_BYTES:
             raise ValueError(
-                f"File too large: {file_size / (1024*1024):.1f}MB > {settings.max_pdf_size_mb}MB limit"
+                f"File too large: {file_size / (1024 * 1024):.1f}MB > {settings.max_pdf_size_mb}MB limit"
             )
 
         # Check cache

@@ -33,10 +33,26 @@ def test_related_tools_are_extracted_as_distinct_skills():
 
     skills = {match.canonical_skill for match in matches}
     expected = {
-        "tensorflow", "keras", "spark", "pyspark", "git", "github",
-        "ci/cd", "github actions", "mongodb", "nosql", "tableau", "matplotlib",
-        "system design", "distributed systems", "testing", "pytest", "jest",
-        "agile", "scrum", "kanban",
+        "tensorflow",
+        "keras",
+        "spark",
+        "pyspark",
+        "git",
+        "github",
+        "ci/cd",
+        "github actions",
+        "mongodb",
+        "nosql",
+        "tableau",
+        "matplotlib",
+        "system design",
+        "distributed systems",
+        "testing",
+        "pytest",
+        "jest",
+        "agile",
+        "scrum",
+        "kanban",
     }
 
     assert expected <= skills
