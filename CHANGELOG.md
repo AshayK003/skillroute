@@ -83,7 +83,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Made interview questions skill-focused, distinguished behavioral rubrics, and persisted validated rubric scores
 - Replaced deprecated Streamlit `use_container_width` arguments with `width="stretch"`
 - Updated README, contributor guidance, architecture, and limitations for CI and demo hosting
-- **Tracker data loss:** an interrupted write could truncate `data/applications.json`, and a corrupt store was silently reset to empty, destroying every saved application
+- **Tracker data loss:** an interrupted write could truncate `data/applications.json`, and a corrupt store was silently reset to empty, destroying every saved application. A failed write now resyncs in-memory state from disk on every failure path, not only mid-write
 - **Tracker tab crash:** a form-created record stored a naive timestamp, so mixing it with a loaded record raised a `TypeError` in `list_all()` and blanked the tracker
 - Several learning resources rendered with empty URLs because the `data visualization` taxonomy category had no resource entry
 - Experience years could be inferred from company boilerplate such as "10 years of company history"

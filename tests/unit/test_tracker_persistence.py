@@ -5,7 +5,6 @@ malformed store, an interrupted write, and an unwritable storage location.
 """
 
 import json
-import os
 import uuid
 from datetime import datetime
 
@@ -78,15 +77,29 @@ def test_missing_storage_directory_is_created(tmp_path):
     assert store.exists()
 
 
-def test_unwritable_store_raises_instead_of_failing_silently(tmp_path):
+def test_unwritable_store_raises_instead_of_failing_silently(tmp_path, monkeypatch):
+    """An unwritable storage location must surface, not silently drop, the write.
+
+    The failure is injected at ``tempfile.mkstemp`` rather than with chmod: the
+    store is written via a temp file plus ``os.replace``, so on POSIX a read-only
+    *file* is still replaceable while its directory is writable, and chmod on a
+    directory is not enforced on Windows.
+    """
     store = tmp_path / "applications.json"
     tracker = ApplicationTracker(str(store))
     tracker.create(company="Acme", role="Engineer")
+    original = store.read_text()
 
-    os.chmod(store, 0o444)
+    def denied(*args, **kwargs):
+        raise PermissionError("read-only filesystem")
+
+    monkeypatch.setattr(tracker_service.tempfile, "mkstemp", denied)
 
     with pytest.raises(PermissionError):
         tracker.create(company="Other", role="Engineer")
+
+    assert store.read_text() == original
+    assert [app.company for app in tracker.list_all()] == ["Acme"]
 
 
 def test_timestamps_are_timezone_aware(tmp_path):

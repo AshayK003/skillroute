@@ -63,9 +63,10 @@ class ApplicationTracker:
     def _save(self) -> None:
         """Write atomically so an interrupted write cannot truncate the store."""
         directory = os.path.dirname(self.storage_path) or "."
-        os.makedirs(directory, exist_ok=True)
-        descriptor, temporary_path = tempfile.mkstemp(dir=directory, suffix=".tmp")
+        temporary_path: str | None = None
         try:
+            os.makedirs(directory, exist_ok=True)
+            descriptor, temporary_path = tempfile.mkstemp(dir=directory, suffix=".tmp")
             with os.fdopen(descriptor, "w") as handle:
                 json.dump(
                     [app.model_dump(mode="json") for app in self._applications],
@@ -74,10 +75,11 @@ class ApplicationTracker:
                 )
             os.replace(temporary_path, self.storage_path)
         except OSError:
-            try:
-                os.unlink(temporary_path)
-            except OSError:
-                pass
+            if temporary_path is not None:
+                try:
+                    os.unlink(temporary_path)
+                except OSError:
+                    pass
             self._load()
             raise
 

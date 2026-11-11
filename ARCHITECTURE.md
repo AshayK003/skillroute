@@ -110,7 +110,7 @@ Streamlit's upload cap is configured to 5 MB in `.streamlit/config.toml`. No sep
 - Uploaded files are processed locally and the temporary file is cleaned up after parsing.
 - Optional Gemini feedback never changes core analysis or saved self-evaluation scores; model output is schema-validated and displayed as advisory.
 - The app has no authentication or rate limiting. Bind it to localhost and do not expose it to untrusted users or networks.
-- Tracker JSON is plaintext, shared by app users, and does not provide concurrency locking. Writes are atomic and a corrupt store is quarantined to a timestamped file rather than silently discarded.
+- Tracker JSON is plaintext, shared by app users, and does not provide concurrency locking. Writes are atomic, a corrupt store is quarantined to a timestamped file rather than silently discarded, and a failed write resyncs in-memory state from disk.
 
 These controls do not sandbox PDF/DOCX parsers. Keep dependencies current and process only files you trust.
 
